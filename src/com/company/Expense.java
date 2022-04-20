@@ -7,8 +7,8 @@ public class Expense {
     public ArrayList<User> friends;
     public String expenseType;
     public int amount;
-    public ArrayList<Integer> amountDistribution;
-    public ArrayList<Float> percentageDistribution;
+    public ArrayList<Float> percentageDistribution;    public ArrayList<Integer> amountDistribution;
+
     Expense(User buyer,ArrayList<User> friends ,String expenseType,int amount) {
         this.buyer = buyer;
         this.friends = friends;

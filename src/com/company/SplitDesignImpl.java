@@ -3,13 +3,14 @@ package com.company;
 import java.util.*;
 
 public class SplitDesignImpl implements ISplitDesign {
-    private  ArrayList<User> userAmountInfo;
-    @Override
-    public void addUser(User user) {
-        userAmountInfo.add(user);
+    public ArrayList<User> users;
+
+    SplitDesignImpl(ArrayList<User> users_list)
+    {
+        this.users = users_list;
     }
 
-    @Override
+
     public void transaction(Expense expense) {
         if(expense.expenseType.equals("EXACT"))
         {
@@ -33,17 +34,26 @@ public class SplitDesignImpl implements ISplitDesign {
     {
         User buyer = expense.buyer;
         int no_of_friends = expense.friends.size();
-        int individualAmount  = expense.amount/no_of_friends;
+        int individualAmount  = expense.amount/(no_of_friends+1);
         for(int i=0;i<no_of_friends;i++)
         {
             User user = expense.friends.get(i);
             if(user!=buyer) {
-                int amount_to_pay = user.balanceInfo.get(buyer)+individualAmount;
-                int buyer_to_friend = buyer.balanceInfo.get(user);
+                Integer amount = user.balanceInfo.get(buyer);
+                if(amount == null)
+                {
+                    amount=0;
+                }
+                int amount_to_pay = amount+individualAmount;
+                Integer buyer_to_friend = buyer.balanceInfo.get(user);
+                if(buyer_to_friend == null)
+                {
+                    buyer_to_friend =0;
+                }
                 amount_to_pay-=buyer_to_friend;
                 if(amount_to_pay>0)
                 {
-                    user.balanceInfo.put(user, amount_to_pay);
+                    user.balanceInfo.put(buyer, amount_to_pay);
                     buyer.balanceInfo.remove(user);
                 }
                 else
@@ -64,7 +74,9 @@ public class SplitDesignImpl implements ISplitDesign {
         int total_distributed_amount = 0;
         for(int i=0;i<no_of_friends;i++)
         {
-            total_distributed_amount+= expense.amountDistribution.get(i);
+            Integer amount = expense.amountDistribution.get(i);
+
+            total_distributed_amount+= amount;
         }
         if(total_distributed_amount != expense.amount)
         {
@@ -75,14 +87,27 @@ public class SplitDesignImpl implements ISplitDesign {
             for(int i=0;i<no_of_friends;i++)
             {
                 User user = expense.friends.get(i);
-                int individualAmount = expense.amountDistribution.get(i);
+                Integer individualAmount = expense.amountDistribution.get(i);
+                if(individualAmount==null)
+                {
+                    individualAmount=0;
+                }
                 if(user!=buyer) {
-                    int amount_to_pay = user.balanceInfo.get(buyer)+individualAmount;
-                    int buyer_to_friend = buyer.balanceInfo.get(user);
+                    Integer amount =  user.balanceInfo.get(buyer);
+                    if(amount == null)
+                    {
+                        amount=0;
+                    }
+                    int amount_to_pay = amount+individualAmount;
+                    Integer buyer_to_friend = buyer.balanceInfo.get(user);
+                    if(buyer_to_friend == null )
+                    {
+                        buyer_to_friend = 0;
+                    }
                     amount_to_pay-=buyer_to_friend;
                     if(amount_to_pay>0)
                     {
-                        user.balanceInfo.put(user, amount_to_pay);
+                        user.balanceInfo.put(buyer, amount_to_pay);
                         buyer.balanceInfo.remove(user);
                     }
                     else
@@ -103,7 +128,12 @@ public class SplitDesignImpl implements ISplitDesign {
         int total_percent = 0;
         for(int i=0;i<no_of_friends;i++)
         {
-            total_percent+=expense.percentageDistribution.get(i);
+            Float amount = expense.percentageDistribution.get(i);
+            if(amount == null)
+            {
+                amount=(float)0;
+            }
+            total_percent+=amount;
         }
         if(total_percent != 100)
         {
@@ -114,16 +144,29 @@ public class SplitDesignImpl implements ISplitDesign {
             for(int i=0;i<no_of_friends;i++)
             {
                 User user = expense.friends.get(i);
-                float percentage = expense.percentageDistribution.get(i);
+                Float percentage = expense.percentageDistribution.get(i);
+                if(percentage == null)
+                {
+                    percentage = (float)0;
+                }
                 int individualAmount = (int)((float)expense.amount*percentage)/100;
                 if(user!=buyer)
                 {
-                    int amount_to_pay = user.balanceInfo.get(buyer)+individualAmount;
-                    int buyer_to_friend = buyer.balanceInfo.get(user);
+                    Integer amount = user.balanceInfo.get(buyer);
+                    if(amount == null )
+                    {
+                        amount =0;
+                    }
+                    int amount_to_pay = amount+individualAmount;
+                    Integer buyer_to_friend = buyer.balanceInfo.get(user);
+                    if(buyer_to_friend == null)
+                    {
+                        buyer_to_friend =0;
+                    }
                     amount_to_pay-=buyer_to_friend;
                     if(amount_to_pay>0)
                     {
-                        user.balanceInfo.put(user, amount_to_pay);
+                        user.balanceInfo.put(buyer, amount_to_pay);
                         buyer.balanceInfo.remove(user);
                     }
                     else
@@ -138,10 +181,12 @@ public class SplitDesignImpl implements ISplitDesign {
     }
 
     @Override
-    public void showBalancesForAllUsers() {
-        for(int i=0;i<userAmountInfo.size();i++)
+    public void showBalancesForAllUsers(ArrayList<User> users) {
+        System.out.println("USERS BALANCE INFO ");
+        for(int i=0;i<users.size();i++)
         {
-            showBalanceForUser(userAmountInfo.get(i));
+
+            showBalanceForUser(users.get(i));
         }
     }
 
@@ -154,7 +199,7 @@ public class SplitDesignImpl implements ISplitDesign {
             User friend = (User)mapElement.getKey();
             int amount  = (Integer)mapElement.getValue();
 
-            System.out.println(user+" Owes "+ friend.user_id+": "+amount);
+            System.out.println(user.getName()+" Owes "+ friend.user_id+": "+amount);
         }
     }
 }

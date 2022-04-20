@@ -1,8 +1,9 @@
 package com.company;
 
+import java.util.ArrayList;
+
 public interface ISplitDesign {
-    void addUser(User user);
     void transaction(Expense expense);
-    void showBalancesForAllUsers();
+    void showBalancesForAllUsers(ArrayList<User> users);
     void showBalanceForUser(User user);
 }

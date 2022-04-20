@@ -9,6 +9,7 @@ public class User {
     User(int user_id)
     {
         this.user_id = user_id;
+        this.name = "User"+user_id;
         balanceInfo =  new HashMap<com.company.User, Integer>();
     }
 
@@ -24,5 +25,10 @@ public class User {
 
     void setEmail(String email) {
         this.email = email;
+    }
+
+    String getName()
+    {
+        return this.name;
     }
 }
