@@ -7,11 +7,7 @@ public class SplitDesignImpl implements ISplitDesign {
     static private SplitDesignImpl splitDesign = null;
     private SplitDesignImpl()
     {}
-
-    private void setUsersList(ArrayList<User> users_list)
-    {
-        this.users = users_list;
-    }
+    
     static public SplitDesignImpl getInstance()
     {
         if(splitDesign == null)
@@ -25,8 +21,6 @@ public class SplitDesignImpl implements ISplitDesign {
         this.users = users_list;
         transaction.executeTransaction(expense);
     }
-
-
 
     @Override
     public void showBalancesForAllUsers(ArrayList<User> users) {
