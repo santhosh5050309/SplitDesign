@@ -1,5 +1,6 @@
 package com.company;
 
+import java.io.PipedWriter;
 import java.util.ArrayList;
 
 public class Main {
@@ -20,8 +21,9 @@ public class Main {
         friends.add(users.get(3));
 
         Expense expense = new Expense(users.get(0),friends,"EQUAL",1000);
-        SplitDesignImpl splitDesign = new SplitDesignImpl(users);
-        splitDesign.transaction(expense);
+        EqualTransaction equalTransaction = new EqualTransaction();
+        SplitDesignImpl splitDesign = SplitDesignImpl.getInstance();
+        splitDesign.executeTransaction(users,equalTransaction,expense);
         splitDesign.showBalancesForAllUsers(users);
 
         //test2
@@ -33,8 +35,9 @@ public class Main {
         amountDistribution.add(370);
         amountDistribution.add(880);
         Expense expense2 = new Expense(users.get(0),friends2,"EXACT",1250);
+        ExactTransaction exactTransaction = new ExactTransaction();
         expense2.setAmountDistribution(amountDistribution);
-        splitDesign.transaction(expense2);
+        splitDesign.executeTransaction(users,exactTransaction,expense2);
         splitDesign.showBalancesForAllUsers(users);
 
 
@@ -51,8 +54,9 @@ public class Main {
         percentDistribution.add((float)20);
         percentDistribution.add((float)20);
         Expense expense3 = new Expense(users.get(3),friends3,"PERCENT",1200);
+        PercentTransaction percentTransaction = new PercentTransaction();
         expense3.setPercentageDistribution(percentDistribution);
-        splitDesign.transaction(expense3);
+        splitDesign.executeTransaction(users,percentTransaction,expense3);
         splitDesign.showBalancesForAllUsers(users);
 
     }

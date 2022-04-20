@@ -1,5 +1,6 @@
 package com.company;
 
+import javax.jws.soap.SOAPBinding;
 import java.util.HashMap;
 
 public class User {
@@ -12,20 +13,49 @@ public class User {
         this.name = "User"+user_id;
         balanceInfo =  new HashMap<com.company.User, Integer>();
     }
-
-    void setName(String name)
+    /*
+    User(UserBuilder userBuilder)
     {
-        this.name = name;
+        this.user_id = userBuilder.user_id;
+        this.name = userBuilder.name;
+        this.mobile = userBuilder.mobile;
+        this.balanceInfo = userBuilder.balanceInfo;
     }
 
-    void setMobile(String mobile)
+    public static class UserBuilder
     {
-        this.mobile = mobile;
-    }
+        public int user_id;
+        public String name,mobile,email;
+        public HashMap<com.company.User,Integer > balanceInfo;
+        UserBuilder(int user_id)
+        {
+            this.user_id  =user_id;
+            this.name = "User"+user_id;
+            balanceInfo =  new HashMap<com.company.User, Integer>();
+        }
+        UserBuilder setName(String name)
+        {
+            this.name = name;
+            return this;
+        }
 
-    void setEmail(String email) {
-        this.email = email;
-    }
+        UserBuilder setMobile(String mobile)
+        {
+            this.mobile = mobile;
+            return this;
+        }
+
+        UserBuilder setEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        User build()
+        {
+            return new User(this);
+        }
+      }
+        */
 
     String getName()
     {
