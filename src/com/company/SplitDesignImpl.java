@@ -7,7 +7,7 @@ public class SplitDesignImpl implements ISplitDesign {
     static private SplitDesignImpl splitDesign = null;
     private SplitDesignImpl()
     {}
-    
+
     static public SplitDesignImpl getInstance()
     {
         if(splitDesign == null)

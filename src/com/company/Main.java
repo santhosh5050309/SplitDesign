@@ -15,6 +15,7 @@ public class Main {
         }
 
        //test1
+       // u1 1000 4 u1 u2 u3 u4 EQUAL
         ArrayList<User> friends = new ArrayList<>();
         friends.add(users.get(1));
         friends.add(users.get(2));
