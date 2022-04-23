@@ -1,43 +1,30 @@
 package com.company;
 
-public class ExactTransaction implements iTransaction {
+public class ExactTransaction extends iTransaction {
     public void executeTransaction(Expense expense) {
-        User buyer = expense.buyer;
-        int no_of_friends = expense.friends.size();
+        if (expense.getExpenseType() != ExpenseType.EXACT) {
+            throw new IllegalStateException("Expense type should be Exact");
+        }
+        User buyer = expense.getBuyer();
+        int no_of_friends = expense.getFriends().size();
         int total_distributed_amount = 0;
         for (int i = 0; i < no_of_friends; i++) {
-            Integer amount = expense.amountDistribution.get(i);
+            int amount = expense.getDistribution().get(i).intValue();
 
             total_distributed_amount += amount;
         }
-        if (total_distributed_amount != expense.amount) {
-            System.out.println("total_distributed_amount IS NOT EQUAL TO amount spent");
+        if (total_distributed_amount != expense.getAmount().intValue()) {
+            throw new IllegalStateException("total_distributed_amount IS NOT EQUAL TO amount spent");
         } else {
             for (int i = 0; i < no_of_friends; i++) {
-                User user = expense.friends.get(i);
-                Integer individualAmount = expense.amountDistribution.get(i);
-                if (individualAmount == null) {
-                    individualAmount = 0;
-                }
+                User user = expense.getFriends().get(i);
+                Double individualAmount = expense.getDistribution().get(i) == null ? Double.valueOf("0") : expense.getDistribution().get(i);
                 if (user != buyer) {
-                    Integer amount = user.balanceInfo.get(buyer);
-                    if (amount == null) {
-                        amount = 0;
-                    }
-                    int amount_to_pay = amount + individualAmount;
-                    Integer buyer_to_friend = buyer.balanceInfo.get(user);
-                    if (buyer_to_friend == null) {
-                        buyer_to_friend = 0;
-                    }
+                    Integer amount = user.getBalanceInfo().getOrDefault(buyer, 0);
+                    Integer amount_to_pay = amount + individualAmount.intValue();
+                    Integer buyer_to_friend = buyer.getBalanceInfo().getOrDefault(user, 0);
                     amount_to_pay -= buyer_to_friend;
-                    if (amount_to_pay > 0) {
-                        user.balanceInfo.put(buyer, amount_to_pay);
-                        buyer.balanceInfo.remove(user);
-                    } else {
-                        user.balanceInfo.remove(buyer);
-                        if (amount_to_pay != 0)
-                            buyer.balanceInfo.put(user, -amount_to_pay);
-                    }
+                    this.updateBalances(amount_to_pay, user, buyer);
                 }
             }
         }
