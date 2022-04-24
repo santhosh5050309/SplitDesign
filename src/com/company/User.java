@@ -1,64 +1,28 @@
 package com.company;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.HashMap;
+import java.util.Map;
 
 public class User {
-    public int user_id;
-    public String name,mobile,email;
-    public HashMap<com.company.User,Integer > balanceInfo;
-    User(int user_id)
-    {
+    private Integer user_id;
+    private String name;
+    private Map<User, Integer> balanceInfo;
+
+    User(int user_id) {
         this.user_id = user_id;
-        this.name = "User"+user_id;
-        balanceInfo =  new HashMap<com.company.User, Integer>();
-    }
-    /*
-    User(UserBuilder userBuilder)
-    {
-        this.user_id = userBuilder.user_id;
-        this.name = userBuilder.name;
-        this.mobile = userBuilder.mobile;
-        this.balanceInfo = userBuilder.balanceInfo;
+        this.name = "User" + user_id;
+        balanceInfo = new HashMap<>();
     }
 
-    public static class UserBuilder
-    {
-        public int user_id;
-        public String name,mobile,email;
-        public HashMap<com.company.User,Integer > balanceInfo;
-        UserBuilder(int user_id)
-        {
-            this.user_id  =user_id;
-            this.name = "User"+user_id;
-            balanceInfo =  new HashMap<com.company.User, Integer>();
-        }
-        UserBuilder setName(String name)
-        {
-            this.name = name;
-            return this;
-        }
+    Integer getUser_id() {
+        return user_id;
+    }
 
-        UserBuilder setMobile(String mobile)
-        {
-            this.mobile = mobile;
-            return this;
-        }
+    Map<User, Integer> getBalanceInfo() {
+        return balanceInfo;
+    }
 
-        UserBuilder setEmail(String email) {
-            this.email = email;
-            return this;
-        }
-
-        User build()
-        {
-            return new User(this);
-        }
-      }
-        */
-
-    String getName()
-    {
+    String getName() {
         return this.name;
     }
 }

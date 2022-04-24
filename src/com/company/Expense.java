@@ -1,26 +1,49 @@
 package com.company;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Expense {
-    public User buyer;
-    public ArrayList<User> friends;
-    public String expenseType;
-    public int amount;
-    public ArrayList<Float> percentageDistribution;    public ArrayList<Integer> amountDistribution;
+    private User buyer;
+    private List<User> friends;
+    private Double amount;
+    private List<Double> distribution;
+    private ExpenseType expenseType;
 
-    Expense(User buyer,ArrayList<User> friends ,String expenseType,int amount) {
+    public Expense(User buyer, List<User> friends, Double amount, ExpenseType expenseType, List<Double> distribution) {
         this.buyer = buyer;
         this.friends = friends;
-        this.expenseType = expenseType;
         this.amount = amount;
+        this.expenseType = expenseType;
+        this.distribution = distribution;
     }
 
-    public void setAmountDistribution(java.util.ArrayList<Integer> amountDistribution) {
-        this.amountDistribution = amountDistribution;
+    Expense(User buyer, List<User> friends, Double amount, ExpenseType expenseType) {
+        this.buyer = buyer;
+        this.friends = friends;
+        this.amount = amount;
+        this.expenseType = expenseType;
+        if (expenseType != ExpenseType.EQUAL) {
+            throw new IllegalStateException("Expense type must be equal");
+        }
     }
 
-    public void setPercentageDistribution(java.util.ArrayList<Float> percentageDistribution) {
-        this.percentageDistribution = percentageDistribution;
+    public User getBuyer() {
+        return buyer;
+    }
+
+    public List<User> getFriends() {
+        return friends;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public List<Double> getDistribution() {
+        return distribution;
+    }
+
+    public ExpenseType getExpenseType() {
+        return expenseType;
     }
 }

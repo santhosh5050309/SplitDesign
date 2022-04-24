@@ -1,6 +1,5 @@
 package com.company;
 
-import java.io.PipedWriter;
 import java.util.ArrayList;
 
 public class Main {
@@ -8,23 +7,22 @@ public class Main {
     public static void main(String[] args) {
         ArrayList<User> users = new ArrayList<>();
         int i;
-        for(i=0;i<4;i++)
-        {
-            User user = new User(i+1);
+        for (i = 0; i < 4; i++) {
+            User user = new User(i + 1);
             users.add(user);
         }
 
-       //test1
-       // u1 1000 4 u1 u2 u3 u4 EQUAL
+        //test1
+        // u1 1000 4 u1 u2 u3 u4 EQUAL
         ArrayList<User> friends = new ArrayList<>();
         friends.add(users.get(1));
         friends.add(users.get(2));
         friends.add(users.get(3));
 
-        Expense expense = new Expense(users.get(0),friends,"EQUAL",1000);
+        Expense expense = new Expense(users.get(0), friends, 1000.0, ExpenseType.EQUAL);
         EqualTransaction equalTransaction = new EqualTransaction();
         SplitDesignImpl splitDesign = SplitDesignImpl.getInstance();
-        splitDesign.executeTransaction(users,equalTransaction,expense);
+        splitDesign.executeTransaction(users, equalTransaction, expense);
         splitDesign.showBalancesForAllUsers(users);
 
         //test2
@@ -32,13 +30,12 @@ public class Main {
         ArrayList<User> friends2 = new ArrayList<>();
         friends2.add(users.get(1));
         friends2.add(users.get(2));
-        ArrayList<Integer> amountDistribution = new ArrayList<>();
-        amountDistribution.add(370);
-        amountDistribution.add(880);
-        Expense expense2 = new Expense(users.get(0),friends2,"EXACT",1250);
+        ArrayList<Double> amountDistribution = new ArrayList<>();
+        amountDistribution.add(370.0);
+        amountDistribution.add(880.0);
+        Expense expense2 = new Expense(users.get(0), friends2, 1250.0, ExpenseType.EXACT, amountDistribution);
         ExactTransaction exactTransaction = new ExactTransaction();
-        expense2.setAmountDistribution(amountDistribution);
-        splitDesign.executeTransaction(users,exactTransaction,expense2);
+        splitDesign.executeTransaction(users, exactTransaction, expense2);
         splitDesign.showBalancesForAllUsers(users);
 
 
@@ -49,15 +46,14 @@ public class Main {
         friends3.add(users.get(1));
         friends3.add(users.get(2));
         friends3.add(users.get(3));
-        ArrayList<Float> percentDistribution = new ArrayList<>();
-        percentDistribution.add((float)40);
-        percentDistribution.add((float)20);
-        percentDistribution.add((float)20);
-        percentDistribution.add((float)20);
-        Expense expense3 = new Expense(users.get(3),friends3,"PERCENT",1200);
+        ArrayList<Double> percentDistribution = new ArrayList<>();
+        percentDistribution.add(40.0);
+        percentDistribution.add(20.0);
+        percentDistribution.add(20.0);
+        percentDistribution.add(20.0);
+        Expense expense3 = new Expense(users.get(3), friends3, 1200.0, ExpenseType.PERCENT, percentDistribution);
         PercentTransaction percentTransaction = new PercentTransaction();
-        expense3.setPercentageDistribution(percentDistribution);
-        splitDesign.executeTransaction(users,percentTransaction,expense3);
+        splitDesign.executeTransaction(users, percentTransaction, expense3);
         splitDesign.showBalancesForAllUsers(users);
 
     }
